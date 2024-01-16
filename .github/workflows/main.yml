@@ -21,7 +21,3 @@ jobs:
         WORKSPACE_ID=$(./gitpod ws create gitlab.com/pawlean/spring-boot-with-gitpod-cli --dont-wait)
         echo "WORKSPACE_ID=$WORKSPACE_ID" >> $GITHUB_ENV
         echo $WORKSPACE_ID
-
-    - name: Set up Job Summary
-      if: success()
-      run: echo "Gitpod Workspace URL: https://gitpod.io/start/#$WORKSPACE_ID" >> $GITHUB_ENV
