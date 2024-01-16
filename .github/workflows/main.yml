@@ -23,9 +23,8 @@ jobs:
       with:
         script: |
           const issueNumber = context.issue.number;
-          const WORKSPACE_URL=$(./gitpod ws create github.com/${context.repo.owner}/${context.repo.repo}/issues/${issueNumber} --dont-wait)
-                const message = `Hi! Thanks for raising this issue, a Gitpod workspace is being prepared for you. Open to contribute:
-                [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](${WORKSPACE_URL})`;
+          const WORKSPACE_URL=$(./gitpod ws create github.com/${context.repo.owner}/${context.repo.repo}/issues/${issueNumber} --dont-wait);
+          const message = `Hi! Thanks for raising this issue, a Gitpod workspace is being prepared for you. Open to contribute: [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](${WORKSPACE_URL})`;
           github.rest.issues.createComment({
             issue_number: issueNumber,
             owner: context.repo.owner,
