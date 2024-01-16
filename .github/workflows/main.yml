@@ -32,7 +32,7 @@ jobs:
           const issueNumber = context.issue.number;
           const workspaceUrl = process.env.WORKSPACE_URL;
           const message = `Hi! Thanks for raising this issue, a Gitpod workspace is being prepared for you. Open to contribute:
-          [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](${workspaceUrl})`;
+          [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#${workspaceUrl})`;
           github.rest.issues.createComment({
             issue_number: issueNumber,
             owner: context.repo.owner,
