@@ -2,11 +2,11 @@ name: Gitpod Workspace on New Branch
 
 on:
   create:
+    branches:
+      - 'dev/**'
 
 jobs:
   gitpod-workspace-creation:
-    # This condition checks if the created reference is a branch and if it matches the 'dev/feature*' pattern
-    if: github.ref_type == 'branch' && startsWith(github.ref, 'refs/heads/dev/feature')
     runs-on: ubuntu-latest
 
     steps:
