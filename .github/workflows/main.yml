@@ -1,11 +1,13 @@
 name: Gitpod CDE on new issue
 
+
 on: 
   issues:
-    types: [opened]
+    types: [labeled]
 
 jobs:
   gitpod-workspace-creation:
+    if: github.event.label.name == 'community-env'
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +33,7 @@ jobs:
         script: |
           const issueNumber = context.issue.number;
           const workspaceUrl = process.env.WORKSPACE_URL;
-          const message = `Hi! Thanks for raising this issue, a Gitpod workspace is being prepared for you. Open to contribute:
+          const message = `Hi! Thanks for raising this issue. Now that you've signed our Community Contributor License Agreement (CLA), a Gitpod workspace is being prepared for you. Open to contribute:
           [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/start/#${workspaceUrl})`;
           github.rest.issues.createComment({
             issue_number: issueNumber,
