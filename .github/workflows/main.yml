@@ -18,13 +18,14 @@ jobs:
         chmod +x gitpod
         ./gitpod login --token ${{ secrets.GITPOD_TOKEN }} --org ${{ secrets.GITPOD_ORG }}
         
-    - name: Comment on new issue
+    - name: Create a Gitpod workspace
       uses: actions/github-script@v5
       with:
         script: |
           const issueNumber = context.issue.number;
           const WORKSPACE_URL=$(./gitpod ws create github.com/${context.repo.owner}/${context.repo.repo}/issues/${issueNumber} --dont-wait)
-                const message = `Hi, a Gitpod workspace is being prepared for you. Open to contribute: ${WORKSPACE_URL}`;
+                const message = `Hi! Thanks for raising this issue, a Gitpod workspace is being prepared for you. Open to contribute:
+                [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](${WORKSPACE_URL})`;
           github.rest.issues.createComment({
             issue_number: issueNumber,
             owner: context.repo.owner,
