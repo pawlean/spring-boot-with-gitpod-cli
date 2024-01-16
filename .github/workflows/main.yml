@@ -1,4 +1,4 @@
-name: Dev Workflow
+name: Gitpod CDE on push / PR
 
 on: [push, pull_request]
 
@@ -18,6 +18,4 @@ jobs:
 
     - name: Create Gitpod Workspace
       run: |
-        WORKSPACE_ID=$(./gitpod ws create gitlab.com/pawlean/spring-boot-with-gitpod-cli --dont-wait)
-        echo "WORKSPACE_ID=$WORKSPACE_ID" >> $GITHUB_ENV
-        echo $WORKSPACE_ID
+        WORKSPACE_ID=$(./gitpod ws create github.com/pawlean/spring-boot-with-gitpod-cli --dont-wait)
