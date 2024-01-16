@@ -1,6 +1,8 @@
 name: Gitpod CDE on push / PR
 
-on: [push, pull_request]
+on: 
+  issues:
+    types: [opened]
 
 jobs:
   gitpod-workspace-creation:
@@ -19,3 +21,17 @@ jobs:
     - name: Create Gitpod Workspace
       run: |
         WORKSPACE_ID=$(./gitpod ws create github.com/pawlean/spring-boot-with-gitpod-cli --dont-wait)
+
+    - name: Comment on new issue
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issueNumber = context.issue.number;
+          const gitpodUrl = `https://gitpod.io/new/?autostart=true##https://github.com/${context.repo.owner}/${context.repo.repo}/issues/${issueNumber}`;
+          const message = `Hello 👋, a Gitpod workspace is being prepared for you. Open to contribute: ${gitpodUrl}`;
+          github.rest.issues.createComment({
+            issue_number: issueNumber,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: message
+          });
