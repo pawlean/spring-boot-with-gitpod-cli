@@ -1,0 +1,41 @@
+name: Gitpod Workspace on PR Label
+
+on:
+  pull_request_target:
+    types: [labeled]
+
+jobs:
+  gitpod-workspace-creation:
+    if: github.event.label.name == 'community-env'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Gitpod CLI
+        run: |
+          wget -O gitpod https://gitpod.io/static/bin/gitpod-cli-linux-amd64
+          chmod +x gitpod
+          ./gitpod login --token ${{ secrets.GITPOD_TOKEN }} --org ${{ secrets.GITPOD_ORG }}
+   
+      - name: Create a Gitpod workspace for the PR
+        run: |
+          prNumber=${{ github.event.pull_request.number }}
+          repoFullName=${{ github.repository }}
+          WORKSPACE_URL=$(./gitpod ws create github.com/$repoFullName/pull/$prNumber --dont-wait)
+          echo "WORKSPACE_URL=$WORKSPACE_URL" >> $GITHUB_ENV
+
+      - name: Comment on PR with Gitpod link
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const workspaceUrl = process.env.WORKSPACE_URL;
+            const message = `A Gitpod workspace has been prepared for this PR. Open to contribute: [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](${workspaceUrl})`;
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
