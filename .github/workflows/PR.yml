@@ -32,7 +32,8 @@ jobs:
           script: |
             const prNumber = context.payload.pull_request.number;
             const workspaceUrl = process.env.WORKSPACE_URL;
-            const message = `A Gitpod workspace has been prepared for this PR. Open to contribute: [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](${workspaceUrl})`;
+            const message = `A Gitpod workspace has been prepared for this PR. Open to contribute: 
+            [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/start/${workspaceUrl})`;
             github.rest.issues.createComment({
               issue_number: prNumber,
               owner: context.repo.owner,
