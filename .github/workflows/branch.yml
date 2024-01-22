@@ -27,4 +27,4 @@ jobs:
         branchName=${GITHUB_REF#refs/heads/}
         repoFullName=${{ github.repository }}
         WORKSPACE_URL=$(./gitpod ws create github.com/$repoFullName/tree/$branchName --dont-wait)
-        echo "WORKSPACE_URL=$WORKSPACE_URL" >> $GITHUB_ENV
+        echo $WORKSPACE_URL
