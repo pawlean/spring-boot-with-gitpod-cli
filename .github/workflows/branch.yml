@@ -9,7 +9,7 @@ jobs:
   gitpod-workspace-creation:
     runs-on: ubuntu-latest
     environment: 
-      name: workspace
+      name: workspace/$branchName
       url: https://gitpod.io/start/#${{ env.WORKSPACE_URL }}
 
     steps:
