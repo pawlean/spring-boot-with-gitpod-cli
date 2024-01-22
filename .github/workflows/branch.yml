@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: workspace
-      url: $GITHUB_ENV
+      url: https://gitpod.io/start/#$WORKSPACE_URL
 
     steps:
     - name: Checkout code
