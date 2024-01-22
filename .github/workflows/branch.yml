@@ -8,7 +8,9 @@ on:
 jobs:
   gitpod-workspace-creation:
     runs-on: ubuntu-latest
-    environment: preview
+    environment: 
+      name: workspace
+      url: $GITHUB_ENV
 
     steps:
     - name: Checkout code
