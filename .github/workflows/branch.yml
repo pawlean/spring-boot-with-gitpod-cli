@@ -8,6 +8,7 @@ on:
 jobs:
   gitpod-workspace-creation:
     runs-on: ubuntu-latest
+    environment: preview
 
     steps:
     - name: Checkout code
