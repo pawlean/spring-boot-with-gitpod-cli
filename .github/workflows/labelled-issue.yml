@@ -1,0 +1,43 @@
+name: Gitpod CDE on new issue
+
+
+on: 
+  issues:
+    types: [labeled]
+
+jobs:
+  gitpod-workspace-creation:
+    if: github.event.label.name == 'community-env'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Gitpod CLI
+      run: |
+        wget -O gitpod https://gitpod.io/static/bin/gitpod-cli-linux-amd64
+        chmod +x gitpod
+        ./gitpod login --token ${{ secrets.GITPOD_TOKEN }} --org ${{ secrets.GITPOD_ORG }}
+
+    - name: Create a Gitpod workspace
+      run: |
+        issueNumber=${{ github.event.issue.number }}
+        repoFullName=${{ github.repository }}
+        WORKSPACE_URL=$(./gitpod ws create github.com/$repoFullName/issues/$issueNumber --dont-wait)
+        echo "WORKSPACE_URL=$WORKSPACE_URL" >> $GITHUB_ENV
+
+    - name: Comment on Issue
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const issueNumber = context.issue.number;
+          const workspaceUrl = process.env.WORKSPACE_URL;
+          const message = `Hi! Thanks for raising this issue. Now that you've signed our Community Contributor License Agreement (CLA), a Gitpod workspace is being prepared for you. Open to contribute:
+          [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/start/#${workspaceUrl})`;
+          github.rest.issues.createComment({
+            issue_number: issueNumber,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: message
+          });
